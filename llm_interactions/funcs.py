@@ -62,8 +62,8 @@ def bulk_description_call(subtopics: list, context: str):
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "system", "content": "You are an education assistance engine. Your only task is to return 2 information in the format specified below. 1, a short description in around 50 words of each provided subtopic in the context of the provided context. 2, a google search query to be made to learn that subtopic. you MUST always follow this format and in no case include any prose. format: [{\"description\":description,\"query\":search query}, ...]"},
-            {"role": "user", "content": f"Subtopic: {', '.join(subtopics)}\nContext: {context}"},
+            {"role": "system", "content": "You are an education assistance engine. Your only task is to return 2 information in the format specified below. 1, a short description in around 50 words of each provided subtopic in the context of the provided context. 2, a google search query to be made to learn that subtopic. you MUST always follow this format and in no case include any prose. format: {\"subtopic\":{\"description\":description,\"query\":search query}, ...}"},
+            {"role": "user", "content": f"Subtopic: {str(subtopics)}\nContext: {context}"},
         ],
         max_tokens=1000,
     )

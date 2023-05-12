@@ -1,5 +1,5 @@
 from .app import app
-from llm_interactions.funcs import single_describe_call, breakdown_call
+from llm_interactions.funcs import single_describe_call, bulk_description_call, breakdown_call
 from llm_interactions.utils import try_function_n_times
 
 from flask import request, jsonify
@@ -33,3 +33,19 @@ def describe():
         })
     return jsonify(try_function_n_times(single_describe_call, 3, subtopic, context))
     
+@app.route('/v1/bulk_describe', methods=['GET', 'POST'])
+def bulk_describe():
+    json = request.get_json()
+    subtopics = json.get("subtopics")
+    context = json.get("context")
+    if not subtopics:
+        return jsonify({
+            "status": "error",
+            "error": "No subtopics provided."
+        })
+    if not context:
+        return jsonify({
+            "status": "error",
+            "error": "No context provided."
+        })
+    return jsonify(try_function_n_times(bulk_description_call, 3, subtopics, context))
