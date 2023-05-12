@@ -4,6 +4,10 @@ from llm_interactions.utils import try_function_n_times
 
 from flask import request, jsonify
 
+@app.route('/hb', methods=['GET', 'POST', 'HEAD'])
+def hb():
+    return "ok", 200
+
 @app.route('/v1/breakdown', methods=['GET', 'POST'])
 def breakdown():
     json = request.get_json()
